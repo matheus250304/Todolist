@@ -1,11 +1,11 @@
 import { pool } from "../database/index.js";
 
 class taskController {
-  async createTasks({ nome, descricao, iscomplete}) {
+  async createTasks({ nome, descricao, iscomplete, created_at, updated_at}) {
     const [result] = await pool.query(
-      `INSERT INTO tarefa ( nome, descricao, iscomplete)
-                VALUES(?, ?, ?)`,
-      [nome, descricao, iscomplete]
+      `INSERT INTO tarefa ( nome, descricao, iscomplete, created_at, updated_at)
+                VALUES(?, ?, ?, ?, ?)`,
+      [nome, descricao, iscomplete, created_at, updated_at ]
     );
     const id = result.insertId;
     return this.listAlltasks();

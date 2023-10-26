@@ -12,11 +12,14 @@ routes.get("/tarefas", async (req, res) => {
 });
 
 routes.post("/tarefas", async (req, res) => {
-  const {  nome, descricao, iscomplete } = req.body
+  const {  nome, descricao, iscomplete, created_at, updated_at } = req.body
     const tarefas = new taskController();
-    const all = await tarefas.createTasks({ nome, descricao, iscomplete}); 
+    const all = await tarefas.createTasks({ nome, descricao, iscomplete, created_at, updated_at}); 
     console.log(all);
     res.send(all)
 })
+
+
+
 
 export { routes };
