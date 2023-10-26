@@ -14,6 +14,13 @@ class taskController {
     const [rows] = await pool.query(`SELECT * FROM tarefa `);
     return rows;
   }
+  
+  async deleteTask(id) {
+    const [rows] = await pool.query(`DELETE FROM tarefa WHERE id = ${id}`)
+    return rows
+  };
 }
+  
+
 
 export { taskController };
