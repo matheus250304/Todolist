@@ -8,19 +8,14 @@ const tarefas = new TaskController();
 
 
 routes.post("/tarefas", async (req, res) => {
-  const { nome, descricao, iscomplete, created_at, updated_at } = req.body;
-  const tarefas = new TaskController();
-  const all = await tarefas.createTasks({
-    nome,
-    descricao,
-    iscomplete,
-    created_at: String(new Date()),
-    updated_at: String(new Date()),
-  });
-  console.log(all);
-  res.send(all);
+  const { name, description } = req.body
+  const newTask = {
+      name, description, isCompleted: false, created_at: String(new Date()), updated_at: String(new Date())
+  }
+  await tarefas.createTasks(newTask);
+  console.log(newTask);
+  res.status(201).json([newTask])
 });
-
 routes.get("/tarefas", async (req, res) => {
   const tarefas = new TaskController();
   const all = await tarefas.listAlltasks();
@@ -30,9 +25,23 @@ routes.get("/tarefas", async (req, res) => {
 
 routes.get("/tarefas/:id" ,async (req, res) => {
   const {id} = req.params;
-  const tarefasId = await tarefas.getTarefasById(id);
+  const tarefasId = await tarefas.getTaskById(id);
+  if(tarefasId[0] === undefined) {
+    res.status(400).json('Tarefa não existe')
+  }
   res.status(200).send(tarefasId)
 });
+
+
+routes.patch("/tarefas/:id/done", async (req, res) => {
+  const {id} = req.params;
+  const iscomplete = true 
+  await tarefas.updateTaskStatus({id, iscomplete})
+  res.status(201).json('Tarefa Concluida')
+});
+
+
+
 
 
 routes.delete("/deletetarefas/:id", async (req, res) => {

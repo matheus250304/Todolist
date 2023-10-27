@@ -20,10 +20,19 @@ class TaskController {
     return rows;
   }
 
-  async gettarefaByid(id) {
+  async getTaskByid(id) {
     const [rows] = await pool.query(`SELECT * FROM tarefa WHERE id = ${id}`);
     return rows;
   }
+  
+  async updateTaskStatus({id, iscomplete}) {
+    const {rows} = await pool.query(`UPDATE tasks Set iscomplete = ? WHERE id = ${id}`,
+    [iscomplete, id,])
+    return rows
+  }
+    
 }
+
+
 
 export { TaskController };
