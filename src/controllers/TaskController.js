@@ -1,11 +1,11 @@
 import { pool } from "../database/index.js";
 
-class taskController {
-  async createTasks({ nome, descricao, iscomplete, created_at, updated_at}) {
+class TaskController {
+  async createTasks({ nome, descricao, iscomplete, created_at, updated_at }) {
     const [result] = await pool.query(
       `INSERT INTO tarefa ( nome, descricao, iscomplete, created_at, updated_at)
                 VALUES(?, ?, ?, ?, ?)`,
-      [nome, descricao, iscomplete, created_at, updated_at ]
+      [nome, descricao, iscomplete, created_at, updated_at]
     );
     const id = result.insertId;
     return this.listAlltasks();
@@ -14,13 +14,16 @@ class taskController {
     const [rows] = await pool.query(`SELECT * FROM tarefa `);
     return rows;
   }
-  
+
   async deleteTask(id) {
-    const [rows] = await pool.query(`DELETE FROM tarefa WHERE id = ${id}`)
-    return rows
-  };
+    const [rows] = await pool.query(`DELETE FROM tarefa WHERE id = ${id}`);
+    return rows;
+  }
+
+  async gettarefaByid(id) {
+    const [rows] = await pool.query(`SELECT * FROM tarefa WHERE id = ${id}`);
+    return rows;
+  }
 }
-  
 
-
-export { taskController };
+export { TaskController };

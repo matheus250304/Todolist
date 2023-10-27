@@ -1,21 +1,15 @@
 import { Router } from "express";
 import express from "express";
-import { taskController } from "../controllers/tasksController.js";
+import { TaskController } from "../controllers/TaskController.js";
 
 const routes = Router();
 
-const tarefas = new taskController();
+const tarefas = new TaskController();
 
-routes.get("/tarefas", async (req, res) => {
-  const tarefas = new taskController();
-  const all = await tarefas.listAlltasks();
-  console.log(all);
-  res.send(all);
-});
 
 routes.post("/tarefas", async (req, res) => {
   const { nome, descricao, iscomplete, created_at, updated_at } = req.body;
-  const tarefas = new taskController();
+  const tarefas = new TaskController();
   const all = await tarefas.createTasks({
     nome,
     descricao,
@@ -26,6 +20,20 @@ routes.post("/tarefas", async (req, res) => {
   console.log(all);
   res.send(all);
 });
+
+routes.get("/tarefas", async (req, res) => {
+  const tarefas = new TaskController();
+  const all = await tarefas.listAlltasks();
+  console.log(all);
+  res.send(all);
+});
+
+routes.get("/tarefas/:id" ,async (req, res) => {
+  const {id} = req.params;
+  const tarefasId = await tarefas.getTarefasById(id);
+  res.status(200).send(tarefasId)
+});
+
 
 routes.delete("/deletetarefas/:id", async (req, res) => {
   const { id } = req.params;
